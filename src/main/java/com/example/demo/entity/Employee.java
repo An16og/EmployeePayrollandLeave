@@ -29,6 +29,7 @@ public class Employee {
     private String email;
 
     @Column(nullable=false)
+    //Make Custom validator for strong password
     private String password;
 
     @Positive

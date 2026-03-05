@@ -43,7 +43,8 @@ public class Payroll {
     private int baseSalary;
 
     private int deductions;
-
+    private int bonus;
+    private int tax;
     private int finalSalary;
 
     private LocalDateTime generatedAt;
