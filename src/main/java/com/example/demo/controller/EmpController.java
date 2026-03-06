@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.Service.Empservice;
+import com.example.demo.Service.Employeeservice;
 import com.example.demo.entity.Employee;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +12,9 @@ import java.util.Optional;
 @RequestMapping("/do")
 
 public class EmpController {
-    private final Empservice service;
+    private final Employeeservice service;
 
-    public EmpController(Empservice service){
+    public EmpController(Employeeservice service){
         this.service =service;
     }
 @GetMapping
