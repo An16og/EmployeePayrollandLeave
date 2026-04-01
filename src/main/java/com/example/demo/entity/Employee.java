@@ -1,14 +1,15 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+
+import com.example.demo.validation.StrongPassword;
 
 @Entity
 @Table(name = "employees")
@@ -18,38 +19,65 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Employee {
 
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    @NotBlank
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable=false, unique=true)
+    @Email
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=false)
-    //Make Custom validator for strong password
+    @NotBlank
+    @StrongPassword
+    @Column(nullable = false)
     private String password;
 
-    @Positive
-    @Column(nullable=false)
-    private int age;
+    @Min(value = 18, message = "Must be at least 18 years old")
+    @Max(value = 80)
+    @Column(nullable = false)
+    private Integer age;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role = Role.EMPLOYEE;
 
     private String designation;
 
-    @Positive
-    private int salary;
+    @NotNull
+    @Column(nullable = false)
+    @PositiveOrZero
+    private Double salary;
 
     private int paidLeaveBalance = 14;
     private int sickLeaveBalance = 14;
-@ManyToOne
-@JoinColumn(name="manager_id")
-private Employee managerId;
+    private int unpaidLeaveBalance = 0;
 
-@Column(nullable = false,updatable = false)
+    // false = account deactivated by ADMIN
+    private boolean active = true;
+
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private Employee manager;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

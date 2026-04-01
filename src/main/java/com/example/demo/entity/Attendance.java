@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +31,18 @@ public class Attendance {
 
     @Column(nullable = false)
     private LocalDateTime markedOn;
+      @PrePersist
+    public void prePersist() {
+        this.markedOn = LocalDateTime.now();
+        this.date = LocalDate.now();   
+    }
 
 
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AttendenceEnums status= AttendenceEnums.ABSENT;
+    private AttendenceTypes status = AttendenceTypes.ABSENT;
     @ManyToOne
     @JoinColumn(name = "marked_by",nullable = false)
     private Employee markedBy;
