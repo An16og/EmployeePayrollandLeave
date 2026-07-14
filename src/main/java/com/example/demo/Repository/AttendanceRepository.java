@@ -39,4 +39,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByManagerIdAndDateBetween(@Param("managerId") Long managerId,
                                                    @Param("from") LocalDate from,
                                                    @Param("to") LocalDate to);
+/* TODO(v2): Optimize reporting queries using JOIN FETCH or @EntityGraph.
+    Current implementation relies on LAZY loading. This is fine for the current
+    project size, but monthly reports or bulk attendance queries may suffer from
+    the N+1 query problem. Profile first, then optimize if required.*/
+
+
 }

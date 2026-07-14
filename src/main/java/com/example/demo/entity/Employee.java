@@ -30,6 +30,7 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
+    //TODO:MAke sure the password stored in database is hashed
     @NotBlank
     @StrongPassword
     @Column(nullable = false)
