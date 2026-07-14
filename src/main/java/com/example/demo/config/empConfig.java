@@ -37,6 +37,7 @@ public class empConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // Auth endpoints are open
+                    .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 // Everything else needs a valid JWT
                 .anyRequest().authenticated()

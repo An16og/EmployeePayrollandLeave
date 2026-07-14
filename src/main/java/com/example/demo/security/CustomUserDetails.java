@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+
+
 /**
  * Wraps the Employee entity to satisfy Spring Security's UserDetails contract.
  */
