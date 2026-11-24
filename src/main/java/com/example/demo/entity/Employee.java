@@ -17,6 +17,7 @@ import com.example.demo.validation.StrongPassword;
 @Builder
 public class Employee {
 
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +31,7 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
-    //TODO:MAke sure the password stored in database is hashed
+    // TODO: Make sure the password stored in database is hashed
     @NotBlank
     @StrongPassword
     @Column(nullable = false)
@@ -53,20 +54,31 @@ public class Employee {
     @PositiveOrZero
     private Double salary;
 
+    @Builder.Default
+    @Min(0)
     private int paidLeaveBalance = 14;
+
+    @Builder.Default
+    @Min(0)
     private int sickLeaveBalance = 14;
+
+    @Builder.Default
+    @Min(0)
     private int unpaidLeaveBalance = 0;
 
     // false = account deactivated by ADMIN
+    @Builder.Default
     private boolean active = true;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private Employee manager;
 
+    @Setter(AccessLevel.NONE)
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Setter(AccessLevel.NONE)
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
